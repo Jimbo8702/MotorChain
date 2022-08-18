@@ -66,24 +66,11 @@ with body:
     )
 
 #Sidebar buttons (not yet functional)
-    with header:
-        st.sidebar.button(
-            label='Connect Wallet',
-            on_click=None
-        )
-    with body:
-        st.sidebar.button(
-            label='Marketplace',
-            on_click=None
-        )
-        st.sidebar.button(
-            label='Documentation',
-            on_click=None
-        )
+st.sidebar.markdown("# Home")
 
-    with body:
-        if st.button('List Vehicle'):
-            st.write('Listing!')
+with body:
+    if st.button('List Vehicle'):
+        st.write('Listing!')
     
 st.markdown("""---""") 
 
