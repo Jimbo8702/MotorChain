@@ -27,10 +27,10 @@ from helper import write_file
 #     account = Account.privateKeyToAccount(private)
 st.text("Write file")
 name = st.text_input("Name")
-vin = st.text_input("Vin")
+description = st.text_input("Vin")
 model = st.text_input("Model")
 image = st.file_uploader("Image", type="jpeg")
-context = {"name": name, "vin": vin, "model": model}
+context = {"name": name, "image": image, "model": model}
 
-if name and vin and model and image:
+if name and description and model and image:
     i = write_file(context, image=image)
