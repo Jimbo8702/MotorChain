@@ -1,21 +1,34 @@
+from time import strftime
 import yfinance as yf  # Yahoo finance to get stock data
 import streamlit as st  # Streamlit to create the webapp 
 import pandas as pd
 from datetime import datetime
-st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
-      
-# ------ layout setting---------------------------
-stock_selector = st.sidebar.container() 
-stock_selector.markdown("## Auto Stocks")
+st.title("MotorChain Auto Stock Portal")      
+ 
+st.sidebar.header("Filter")
 
-# ---------Selectbox for users to pick a stock to evaluate-----------------
+now = datetime.now()
+year = now.strftime("%Y")
+month = now.strftime("%m")
+day = now.strftime("%d")
+time = now.strftime("%H:%M:%S")
+date = now.strftime("%m/%d/%Y")
+time = now.strftime("%H:%M:%S")
 
-stock_picks = ("General Motors","Tesla","VW","Toyota","Honda","Ford","Stellantis","Hyundai","Volvo","Audi","BMW","Mercedes")  
-ticker = stock_selector.selectbox("Pick a Stock",stock_picks)
+stock_picks = pd.read_csv("auto_companies.csv")
 
-# ---------Declare Ticker Symbols Based on User Selection-----------------
 
+
+with st.form("form_1"):
+    
+    with st.sidebar:
+        start_date = st.date_input("Start date", datetime(2022, 1, 1)) # User selects start date
+        end_date = st.date_input("End date") # User selects end date, Default is Today
+        ticker = st.selectbox("",stock_picks) # User picks a stock from the selectbox
+        submitted = st.form_submit_button("Submit") # User clicks "run" to process the above selections 
+
+         
 GM = 'GM'
 Tesla = 'TSLA'  
 Vwagon = 'VWAGY'
@@ -54,32 +67,72 @@ if ticker == "BMW":
 if ticker == "Mercedes":
     ticker = Mercedes
 
-
-@st.cache(suppress_st_warning=True) 
-def load_stock_data():
-    stock_data = yf.Ticker(ticker).info
-    return stock_data
-
-data = load_stock_data() 
-
-@st.cache(suppress_st_warning=True) 
-def stock_history():
-    stock_history = yf.Ticker(ticker).history(period="YTD" )
-    return stock_history
-
-history = stock_history()
-
 @st.cache(suppress_st_warning=True) 
 def load_stock_price():
     stock_price = yf.Ticker(ticker).info['regularMarketPrice']
     return stock_price
 
 price = load_stock_price()
-current_timestamp = datetime.now()
-st.write(f"### {current_timestamp}")
-st.write(f"## The price of {ticker} in USD is ${price:.2f}")
-st.write("YTD Closing Price")
-st.line_chart(history.Close,use_container_width=True)
-if st.button("More Info"):
-    st.write(data)
+
+@st.cache(suppress_st_warning=True) 
+def load_stock_summary():
+    stock_summary = yf.Ticker(ticker).info['longBusinessSummary']
+    return stock_summary
+
+stock_summary = load_stock_summary() 
+
+@st.cache(suppress_st_warning=True) 
+def stock_history():
+    stock_history = yf.Ticker(ticker).history(period='1d', start=start_date, end=end_date )
+    return stock_history
+
+history = stock_history()
+
+@st.cache(suppress_st_warning=True) 
+def get_data_choices():
+    stock_data = yf.Ticker(ticker).info
+    return stock_data
+
+
+stock_info = get_data_choices()
+data_selection = st.sidebar.selectbox("",stock_info)
+
+
+@st.cache(suppress_st_warning=True) 
+def pull_data_choice():
+    data_select = yf.Ticker(ticker).info[data_selection]
+    st.sidebar.write(data_select)
+    st.write(f"{date} \n {time}")
+    st.write(f"## The price of {ticker} in USD is ${price:.2f}")
+    st.line_chart(history.Close,use_container_width=True)
+    st.line_chart(history.Volume,use_container_width=True)
+    st.info(stock_summary)
+    return data_select
+
+pull = pull_data_choice()
+
+
+    
+    
+    
+
+    
+    
+
+    
+
+
+
+    
+    
+
+
+
+        
+
+    
+
+
+
+
 
