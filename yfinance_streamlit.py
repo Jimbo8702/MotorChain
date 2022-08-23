@@ -93,20 +93,20 @@ def get_data_choices():
     stock_data = yf.Ticker(ticker).info
     return stock_data
 
-
 stock_info = get_data_choices()
-data_selection = st.sidebar.selectbox("",stock_info)
+
 
 
 @st.cache(suppress_st_warning=True) 
 def pull_data_choice():
-    data_select = yf.Ticker(ticker).info[data_selection]
-    st.sidebar.write(data_select)
     st.write(f"{date} \n {time}")
     st.write(f"## The price of {ticker} in USD is ${price:.2f}")
     st.line_chart(history.Close,use_container_width=True)
     st.line_chart(history.Volume,use_container_width=True)
     st.info(stock_summary)
+    data_selection = st.selectbox("",stock_info)
+    data_select = yf.Ticker(ticker).info[data_selection]
+    st.write(f"{data_select}")
     return data_select
 
 pull = pull_data_choice()
