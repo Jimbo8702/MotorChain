@@ -93,7 +93,7 @@ def web3_mint(userAddress: str, tokenURI: str, eth_json: Dict[str, Any]) -> str:
     nonce = random.randint(8, 150)
 
     # Create the contracrt
-    mint_txn = CODE_NFT.functions.mint(userAddress, vin, tokenURI).buildTransaction(
+    mint_txn = CODE_NFT.functions.mint(userAddress, tokenURI, vin).buildTransaction(
         {
             "chainId": CHAIN_ID,
             "gas": 1000000,
