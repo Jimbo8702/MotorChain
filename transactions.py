@@ -1,9 +1,11 @@
+from termios import VINTR
 import streamlit as st
 from dataclasses import dataclass
 from typing import Any, List
 import datetime as datetime
 import pandas as pd
 import hashlib
+from ipfs_helper import load_json, upload_data
 
 st.markdown("# Transactions")
 st.sidebar.markdown("# Transactions")
@@ -13,10 +15,22 @@ documentation = st.container()
 
 
 @dataclass
+class Car:
+    owner: str
+    make: str
+    year: str
+    type: str
+    vin: str
+    description: str
+    data_uri: str
+
+
+@dataclass
 class Record:
     sender: str
     receiver: str
-    amount: float
+    car: Car
+
 
 @dataclass
 class Block:
@@ -45,6 +59,7 @@ class Block:
         sha.update(nonce)
 
         return sha.hexdigest()
+
 
 @dataclass
 class PyChain:
@@ -94,42 +109,42 @@ motorchain = setup()
 
 st.text_input("Block Data")
 
-sender = st.text_input(
-    label='sender',
-    max_chars=100,
-    autocomplete=None
-)
-receiver = st.text_input(
-    label='receiver',
-    max_chars=100,
-    autocomplete=None
-)
-nft = st.text_input(
-    label='NFT ID',
-    max_chars=100,
-    autocomplete=None
-)
+sender = st.text_input(label="sender", max_chars=100, autocomplete=None)
+receiver = st.text_input(label="receiver", max_chars=100, autocomplete=None)
+name = st.text_input(label="Name of car", max_chars=100, autocomplete=None)
+
 if st.button("Add Block"):
     prev_block = motorchain.chain[-1]
     prev_block_hash = prev_block.hash_block()
+    ipfs_hash = upload_data(name)
+    ipfs_uri = "ipfs://{ipfs_hash}"
+    car_info = load_json(f"./cars/{name}.json")
+    user_car = Car(
+        owner=car_info["owner"],
+        make=car_info["make"],
+        year=car_info["year"],
+        type=car_info["type"],
+        vin=car_info["vin"],
+        description=car_info["description"],
+        image=car_info["image"],
+        data_uri=ipfs_uri,
+    )
 
     new_block = Block(
         creator_id=42,
         prev_hash=prev_block_hash,
-        record=Record(sender, receiver, nft)
+        record=Record(sender, receiver, car=user_car),
     )
 
     motorchain.add_block(new_block)
     new_block = Block(
         creator_id=42,
         prev_hash=prev_block_hash,
-        record=Record(sender, receiver, nft)
-)
+        record=Record(sender, receiver, car=user_car),
+    )
 
     motorchain.add_block(new_block)
     st.balloons()
 
 motorchain_df = pd.DataFrame(motorchain.chain).astype(str)
 st.write(motorchain_df)
-
-
