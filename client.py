@@ -28,7 +28,8 @@ from web3_helper import main
 #     account = Account.privateKeyToAccount(private)
 st.text("Write file")
 name = st.text_input("Name")
-description = st.text_input("Vin")
+description = st.text_input("Description")
+vin = st.text_input("Vin")
 model = st.text_input("Model")
 image = st.file_uploader("Image", type="jpeg")
 context = {"name": name, "description": description, "image": image}
@@ -39,8 +40,8 @@ if name and description and model and image:
 
 
 mnemonic_seed = st.text_input("mnemonic phrase for your account") 
-address = st.text_input("account address") 
-if mnemonic_seed and address:
-    main(uri, mnemonic_seed)
+
+if mnemonic_seed:
+    main(vin, uri, mnemonic_seed)
 
 

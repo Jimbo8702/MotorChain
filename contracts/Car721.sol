@@ -22,7 +22,7 @@ contract MyCarFactory is
 
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("DigitAll Offical Cars Contract", DCC) {
+    constructor() ERC721("DigitAll Offical Cars Contract", "DDC") {
         approvedForMint[msg.sender] == true;
     }
 
