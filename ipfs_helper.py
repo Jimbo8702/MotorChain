@@ -30,6 +30,7 @@ def upload_file(file_path_to_upload, name):
     if r.status_code == 200:
         print("file_uploaded")
         print(r.json()["IpfsHash"])
+        
     else:
         print(r._content)
 
@@ -72,7 +73,8 @@ def write_file(context, image):
         json_object = json.dumps(context, indent=4)
         with open(f"./cars/{name}.json", "w") as outfile:
             outfile.write(json_object)
-        upload_file(
+        ipfs_hash = upload_file(
             file_path_to_upload=f"./cars/{name}.json",
             name=name,
         )
+        return ipfs_hash
