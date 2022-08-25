@@ -1,0 +1,9 @@
+{
+    "name": "bob",
+    "make": "Ford",
+    "year": "2019",
+    "model": "sport",
+    "vin": "2352353",
+    "description": "cool car",
+    "image": "ipfs://QmeZS36B9N87xkQDDizHj6EGwuUkaCAqk4yKHrd8SWLEgT/bob_image.jpeg"
+}

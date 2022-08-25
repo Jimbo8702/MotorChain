@@ -92,8 +92,8 @@ with body:
 st.sidebar.markdown("# Home")
 
 with body:
-    if st.button("List Vehicle"):
-        st.write("Listing!")
+    if st.button("Prepare listing"):
+        st.write("Preparing! Head to transactions to add to the chain!")
         write_file(
             context={
                 "name": owner_name,
