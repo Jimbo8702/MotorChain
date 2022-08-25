@@ -30,7 +30,7 @@ with body:
     # key=None,
     # autocomplete=None
     # )
-    st.text_input(label="Mnemonic Phrase", max_chars=512, key=None, autocomplete=None)
+    # st.text_input(label="Mnemonic Phrase", max_chars=512, key=None, autocomplete=None)
     owner_name = st.text_input(
         label="Owner Name", value="", max_chars=50, key=None, autocomplete=None
     )
@@ -71,23 +71,21 @@ with body:
         label="Input Vehicle Photo",
         # type=['png', 'jpeg'],
         type="jpeg",
-        accept_multiple_files=True,
+        # accept_multiple_files=True,
         help="Input .jpeg of the vehicle you would like to list.",
     )
-    st.button(
-        label="Submit",
-        on_click=write_file(
-            context={
-                "owner_name": owner_name,
-                "make": attribute[0],
-                "year": year,
-                "model": model,
-                "vin": vin,
-                "description": description,
-            },
-            image=image,
-        ),
-    )
+    # if st.button(label="Submit"):
+    #     write_file(
+    #         context={
+    #             "name": owner_name,
+    #             "make": attribute[0],
+    #             "year": year,
+    #             "model": model,
+    #             "vin": vin,
+    #             "description": description,
+    #         },
+    #         image=image,
+    #     )
 
 
 # Sidebar buttons (not yet functional)
@@ -96,6 +94,18 @@ st.sidebar.markdown("# Home")
 with body:
     if st.button("List Vehicle"):
         st.write("Listing!")
+        write_file(
+            context={
+                "name": owner_name,
+                "make": attribute[0],
+                "year": year,
+                "model": model,
+                "vin": vin,
+                "description": description,
+            },
+            image=image,
+        )
+
 
 st.markdown("""---""")
 

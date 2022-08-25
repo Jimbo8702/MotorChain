@@ -77,6 +77,7 @@ def upload_image(image_path, name):
 
 
 def write_file(context, image):
+
     name = context["name"]
     imageStream = io.BytesIO(image.getvalue())
     imageFile = Image.open(imageStream)

@@ -19,9 +19,10 @@ class Car:
     owner: str
     make: str
     year: str
-    type: str
+    model: str
     vin: str
     description: str
+    image: str
     data_uri: str
 
 
@@ -120,10 +121,10 @@ if st.button("Add Block"):
     ipfs_uri = "ipfs://{ipfs_hash}"
     car_info = load_json(f"./cars/{name}.json")
     user_car = Car(
-        owner=car_info["owner"],
+        owner=car_info["name"],
         make=car_info["make"],
         year=car_info["year"],
-        type=car_info["type"],
+        model=car_info["model"],
         vin=car_info["vin"],
         description=car_info["description"],
         image=car_info["image"],
