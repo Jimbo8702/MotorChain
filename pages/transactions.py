@@ -108,8 +108,6 @@ def setup():
 
 motorchain = setup()
 
-st.text_input("Block Data")
-
 sender = st.text_input(label="sender", max_chars=100, autocomplete=None)
 receiver = st.text_input(label="receiver", max_chars=100, autocomplete=None)
 name = st.text_input(label="Name of car", max_chars=100, autocomplete=None)
