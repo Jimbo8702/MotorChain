@@ -3,7 +3,7 @@ A prototype blurprint for a new monetary system on blockchain technology. MotorC
 MotorChain is a blockchain that facilitates the verification of vehicles as well as the sale of them through its own NFT marketplace.
 MotorChains primary product will be a frontend app built around a smart contract that verifies a vehicles ownership and authenticity.
 
-Installations:
+# Installations:
 pip install streamlit
 
 #                                                                 MotorChain Life Cycle:
@@ -13,4 +13,4 @@ pip install streamlit
 
 ![Screenshot (27)](https://user-images.githubusercontent.com/100743287/186556267-f347494a-dd13-48d0-ac98-1292b912d4f0.png)
 
-2)Run Pragmasolidity.py Using--->  streamlit run pragmasolidity.py
+2) Run Pragmasolidity.py Using--->  streamlit run pragmasolidity.py
